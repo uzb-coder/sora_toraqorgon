@@ -9,7 +9,11 @@ const Color backgroundColor = Color(0xFFF5F5F5);
 const Color errorColor = Colors.redAccent;
 const Color tableHeaderColor = Color(0xFFE3F2FD);
 
-void showCustomSnackBar(BuildContext context, String message, {bool error = false}) {
+void showCustomSnackBar(
+  BuildContext context,
+  String message, {
+  bool error = false,
+}) {
   final snackBar = SnackBar(
     content: Text(message),
     backgroundColor: error ? Colors.red.shade600 : primaryColor,
@@ -42,10 +46,12 @@ class _ClientPageState extends State<ClientPage> {
   }
 
   Future<void> _fetchClients() async {
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
+    if (mounted) {
+      setState(() {
+        _isLoading = true;
+        _error = null;
+      });
+    }
 
     try {
       final response = await http.get(
@@ -190,7 +196,9 @@ class _ClientPageState extends State<ClientPage> {
           builder: (context, setStateModal) {
             return AlertDialog(
               backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               titleTextStyle: const TextStyle(
                 color: primaryColor,
                 fontWeight: FontWeight.bold,
@@ -206,13 +214,21 @@ class _ClientPageState extends State<ClientPage> {
                       TextFormField(
                         decoration: const InputDecoration(labelText: "Исм"),
                         onChanged: (val) => name = val,
-                        validator: (val) => val == null || val.isEmpty ? "Исм киритинг" : null,
+                        validator:
+                            (val) =>
+                                val == null || val.isEmpty
+                                    ? "Исм киритинг"
+                                    : null,
                       ),
                       TextFormField(
                         decoration: const InputDecoration(labelText: "Телефон"),
                         keyboardType: TextInputType.phone,
                         onChanged: (val) => phone = val,
-                        validator: (val) => val == null || val.isEmpty ? "Телефон киритинг" : null,
+                        validator:
+                            (val) =>
+                                val == null || val.isEmpty
+                                    ? "Телефон киритинг"
+                                    : null,
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
@@ -221,10 +237,12 @@ class _ClientPageState extends State<ClientPage> {
                         keyboardType: TextInputType.number,
                         onChanged: (val) => discount = val,
                         validator: (val) {
-                          if (val == null || val.isEmpty) return "Чегирма киритинг";
+                          if (val == null || val.isEmpty)
+                            return "Чегирма киритинг";
                           final number = int.tryParse(val);
                           if (number == null) return "Фақат рақам киритинг";
-                          if (number < 0 || number > 100) return "0 дан 100 гача рақам киритинг";
+                          if (number < 0 || number > 100)
+                            return "0 дан 100 гача рақам киритинг";
                           return null;
                         },
                       ),
@@ -233,7 +251,11 @@ class _ClientPageState extends State<ClientPage> {
                           labelText: "Карта рақами",
                         ),
                         onChanged: (val) => cardNumber = val,
-                        validator: (val) => val == null || val.isEmpty ? "Карта рақами киритинг" : null,
+                        validator:
+                            (val) =>
+                                val == null || val.isEmpty
+                                    ? "Карта рақами киритинг"
+                                    : null,
                       ),
                     ],
                   ),
@@ -268,14 +290,23 @@ class _ClientPageState extends State<ClientPage> {
                         if (success) {
                           Navigator.of(context).pop();
                           _fetchClients();
-                          showCustomSnackBar(context, "Мижоз муваффақиятли қўшилди");
+                          showCustomSnackBar(
+                            context,
+                            "Мижоз муваффақиятли қўшилди",
+                          );
                         } else {
-                          showCustomSnackBar(context, "Хато юз берди", error: true);
+                          showCustomSnackBar(
+                            context,
+                            "Хато юз берди",
+                            error: true,
+                          );
                         }
                       }
                     },
                     child: const Text("Яратиш"),
-                    style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                    ),
                   ),
                 ],
               ],
@@ -303,7 +334,9 @@ class _ClientPageState extends State<ClientPage> {
           builder: (context, setStateModal) {
             return AlertDialog(
               backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               titleTextStyle: const TextStyle(
                 color: primaryColor,
                 fontWeight: FontWeight.bold,
@@ -320,14 +353,22 @@ class _ClientPageState extends State<ClientPage> {
                         initialValue: name,
                         decoration: const InputDecoration(labelText: "Исм"),
                         onChanged: (val) => name = val,
-                        validator: (val) => val == null || val.isEmpty ? "Исм киритинг" : null,
+                        validator:
+                            (val) =>
+                                val == null || val.isEmpty
+                                    ? "Исм киритинг"
+                                    : null,
                       ),
                       TextFormField(
                         initialValue: phone,
                         decoration: const InputDecoration(labelText: "Телефон"),
                         keyboardType: TextInputType.phone,
                         onChanged: (val) => phone = val,
-                        validator: (val) => val == null || val.isEmpty ? "Телефон киритинг" : null,
+                        validator:
+                            (val) =>
+                                val == null || val.isEmpty
+                                    ? "Телефон киритинг"
+                                    : null,
                       ),
                       TextFormField(
                         initialValue: discount,
@@ -337,10 +378,12 @@ class _ClientPageState extends State<ClientPage> {
                         keyboardType: TextInputType.number,
                         onChanged: (val) => discount = val,
                         validator: (val) {
-                          if (val == null || val.isEmpty) return "Чегирма киритинг";
+                          if (val == null || val.isEmpty)
+                            return "Чегирма киритинг";
                           final number = int.tryParse(val);
                           if (number == null) return "Фақат рақам киритинг";
-                          if (number < 0 || number > 100) return "0 дан 100 гача рақам киритинг";
+                          if (number < 0 || number > 100)
+                            return "0 дан 100 гача рақам киритинг";
                           return null;
                         },
                       ),
@@ -350,7 +393,11 @@ class _ClientPageState extends State<ClientPage> {
                           labelText: "Карта рақами",
                         ),
                         onChanged: (val) => cardNumber = val,
-                        validator: (val) => val == null || val.isEmpty ? "Карта рақами киритинг" : null,
+                        validator:
+                            (val) =>
+                                val == null || val.isEmpty
+                                    ? "Карта рақами киритинг"
+                                    : null,
                       ),
                     ],
                   ),
@@ -389,14 +436,23 @@ class _ClientPageState extends State<ClientPage> {
                         if (success) {
                           Navigator.of(context).pop();
                           _fetchClients();
-                          showCustomSnackBar(context, "Мижоз муваффақиятли янгиланди");
+                          showCustomSnackBar(
+                            context,
+                            "Мижоз муваффақиятли янгиланди",
+                          );
                         } else {
-                          showCustomSnackBar(context, "Янгилашда хато юз берди", error: true);
+                          showCustomSnackBar(
+                            context,
+                            "Янгилашда хато юз берди",
+                            error: true,
+                          );
                         }
                       }
                     },
                     child: const Text("Сақлаш"),
-                    style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                    ),
                   ),
                 ],
               ],
@@ -410,28 +466,31 @@ class _ClientPageState extends State<ClientPage> {
   Future<void> _confirmDelete(String id) async {
     final result = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        titleTextStyle: const TextStyle(
-          color: primaryColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-        ),
-        title: const Text("Ўчиришни тасдиқланг"),
-        content: const Text("Мижозни ўчирмоқчимисиз?"),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text("Бекор қилиш"),
+      builder:
+          (context) => AlertDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            titleTextStyle: const TextStyle(
+              color: primaryColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+            title: const Text("Ўчиришни тасдиқланг"),
+            content: const Text("Мижозни ўчирмоқчимисиз?"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text("Бекор қилиш"),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text("Ўчириш"),
+                style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text("Ўчириш"),
-            style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
-          ),
-        ],
-      ),
     );
 
     if (result == true) {
@@ -460,36 +519,37 @@ class _ClientPageState extends State<ClientPage> {
         DataColumn(label: Text("Карта рақами")),
         DataColumn(label: Text("Ҳarakatлар")),
       ],
-      rows: _clients.map((client) {
-        return DataRow(
-          cells: [
-            DataCell(Text(client['name']?.toString() ?? '')),
-            DataCell(Text(client['phone']?.toString() ?? '')),
-            DataCell(Text("${client['discount']?.toString() ?? '0'}%")),
-            DataCell(Text(client['card_number']?.toString() ?? '')),
-            DataCell(
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.edit, color: primaryColor),
-                    tooltip: 'Таҳрирлаш',
-                    onPressed: () {
-                      _showEditClientModal(client);
-                    },
+      rows:
+          _clients.map((client) {
+            return DataRow(
+              cells: [
+                DataCell(Text(client['name']?.toString() ?? '')),
+                DataCell(Text(client['phone']?.toString() ?? '')),
+                DataCell(Text("${client['discount']?.toString() ?? '0'}%")),
+                DataCell(Text(client['card_number']?.toString() ?? '')),
+                DataCell(
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit, color: primaryColor),
+                        tooltip: 'Таҳрирлаш',
+                        onPressed: () {
+                          _showEditClientModal(client);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: errorColor),
+                        tooltip: 'Ўчириш',
+                        onPressed: () {
+                          _confirmDelete(client['_id']);
+                        },
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: errorColor),
-                    tooltip: 'Ўчириш',
-                    onPressed: () {
-                      _confirmDelete(client['_id']);
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
-      }).toList(),
+                ),
+              ],
+            );
+          }).toList(),
     );
   }
 
@@ -521,35 +581,38 @@ class _ClientPageState extends State<ClientPage> {
           ],
         ),
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: primaryColor))
-          : _error != null
-          ? Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text(
-            _error!,
-            style: const TextStyle(color: Colors.red, fontSize: 16),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      )
-          : LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minWidth: constraints.maxWidth,
+      body:
+          _isLoading
+              ? const Center(
+                child: CircularProgressIndicator(color: primaryColor),
+              )
+              : _error != null
+              ? Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    _error!,
+                    style: const TextStyle(color: Colors.red, fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              )
+              : LayoutBuilder(
+                builder: (context, constraints) {
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minWidth: constraints.maxWidth,
+                      ),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: _buildDataTable(),
+                      ),
+                    ),
+                  );
+                },
               ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: _buildDataTable(),
-              ),
-            ),
-          );
-        },
-      ),
       floatingActionButton: ElevatedButton.icon(
         onPressed: () {
           Navigator.of(context).pop();

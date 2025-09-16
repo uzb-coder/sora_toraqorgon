@@ -509,29 +509,19 @@ class UsbPrinterService {
       0x1B, 0x45, 0x00, // Qalin shriftni o'chirish
       0x1B, 0x21, 0x00, // Oddiy shriftga qaytish
       0x0A, // Bo'sh qator
+
       // Sana va vaqt
       ...centerText(printDateTime),
       ...centerText("----------------------------------"),
       0x1B, 0x45, 0x01, // Qalin shrift
-      ...leftAlignText(
-        "       Buyurtma: ${order.orderNumber}",
-      ), // 4 ta bo'shlik
+      ...leftAlignText("       Buyurtma: ${order.orderNumber}"), // 4 ta bo'shlik
       ...leftAlignText("       Stol: ${order.tableNumber}"), // 4 ta bo'shlik
-      ...leftAlignText(
-        "       Ofitsiant: ${order.waiterName}",
-      ), // 4 ta bo'shlik
+      ...leftAlignText("       Ofitsiant: ${order.waiterName}"), // 4 ta bo'shlik
       0x1B, 0x45, 0x00, // Qalin shriftni o'chirish
       ...centerText("----------------------------------"),
 
-      // MAHSULOTLAR SARLAVHASI
-      0x1B, 0x21, 0x10, // O'rta shrift
-      0x1B, 0x45, 0x01, // Qalin shrift
-      ...centerText("MAHSULOTLAR"),
-      0x1B, 0x45, 0x00, // Qalin shriftni o'chirish
-      0x1B, 0x21, 0x00, // Oddiy shrift
-      ...centerText("----------------------------------"),
-
-      // Mahsulotlar ro'yxati (markazda)
+      // ❌ MAHSULOTLAR matni olib tashlandi
+      // ✅ Faqat mahsulotlar ro'yxati qoladi
       ...buildItemsList(order.items),
 
       ...centerText("----------------------------------"),
@@ -539,9 +529,11 @@ class UsbPrinterService {
       // Hisob-kitob
       0x1B, 0x21, 0x00, // Oddiy shrift
       ...centerText("Mahsulotlar: ${formatNumber(order.subtotal)} so'm"),
-      ...centerText("Xizmat haqi (${order.percentage}%): ${formatNumber(order.serviceAmount)} so'm"
-      ),      0x0A, // Xizmat haqi va jami o'rtasida bo'shliq
+      ...centerText(
+          "Xizmat haqi (${order.percentage}%): ${formatNumber(order.serviceAmount)} so'm"),
+      0x0A, // Xizmat haqi va jami o'rtasida bo'shliq
       0x0A, // Qo'shimcha bo'shliq
+
       // Yakuniy summa (katta va qalin)
       0x1B, 0x21, 0x20, // Katta shrift
       0x1B, 0x45, 0x01, // Qalin shrift
@@ -559,10 +551,12 @@ class UsbPrinterService {
       0x1B, 0x21, 0x00, // Oddiy shrift
       0x0A, // Bo'sh qator
       0x0A, // Bo'sh qator
+
       // Chekni kesish
       0x1B, 0x64, 0x06, // 6 ta bo'sh qator
       0x1D, 0x56, 0x00, // Kesish
     ];
+
   }
 
   List<int> buildItemsList(List<OrderItem> items) {

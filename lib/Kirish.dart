@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -23,7 +24,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     _timeString = _formatDateTime(DateTime.now(), 'HH:mm');
     _dateString = _formatDateTime(DateTime.now(), 'EEEE, d MMMM, yyyy');
 
-    _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) => _getTime());
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (Timer t) => _getTime(),
+    );
     super.initState();
   }
 
@@ -38,10 +42,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     final String formattedTime = _formatDateTime(now, 'HH:mm:ss');
     final String formattedDate = _formatDateTime(now, 'EEEE, d MMMM, yyyy');
 
-    setState(() {
-      _timeString = formattedTime;
-      _dateString = formattedDate;
-    });
+    if (mounted) {
+      setState(() {
+        _timeString = formattedTime;
+        _dateString = formattedDate;
+      });
+    }
   }
 
   String _formatDateTime(DateTime dateTime, String format) {
@@ -68,7 +74,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           children: [
             Center(
               child: Container(
-                width: logoSize > 350 ? 350 : logoSize,  // maksimal 350 px
+                width: logoSize > 350 ? 350 : logoSize, // maksimal 350 px
                 height: logoSize > 350 ? 350 : logoSize,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -124,14 +130,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const UserListPage()),
+                    MaterialPageRoute(
+                      builder: (context) => const UserListPage(),
+                    ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF0d5720),
                   padding: EdgeInsets.symmetric(
-                    horizontal: buttonPaddingHorizontal > 50 ? 50 : buttonPaddingHorizontal,
-                    vertical: buttonPaddingVertical > 30 ? 30 : buttonPaddingVertical,
+                    horizontal:
+                        buttonPaddingHorizontal > 50
+                            ? 50
+                            : buttonPaddingHorizontal,
+                    vertical:
+                        buttonPaddingVertical > 30 ? 30 : buttonPaddingVertical,
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -147,10 +159,41 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
               ),
             ),
+
+            SizedBox(height: screenHeight * 0.02),
+
+             Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  exit(0);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF0d5720),
+                  padding: EdgeInsets.symmetric(
+                    horizontal:
+                        buttonPaddingHorizontal > 50
+                            ? 50
+                            : buttonPaddingHorizontal,
+                    vertical:
+                        buttonPaddingVertical > 30 ? 30 : buttonPaddingVertical,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  textStyle: TextStyle(
+                    fontSize: buttonFontSize > 18 ? 18 : buttonFontSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                child: const Text(
+                  'Chiqish',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-
 }
